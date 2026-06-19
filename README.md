@@ -16,10 +16,7 @@
 <br>
 
 <p align="center">
-  <img src="<Triliant Data Business Performance Dashboard"/>
-" alt="< width="1922" height="1623" alt="0" src="https://github.com/user-attachments/assets/26f4f558-beb0-4987-9ff5-78e91e7721ed" />
-  ### Sales Dashboard
-<img width="1532" height="630" alt="SwiftAuto Traders Sales Dashboard Overview" src="https://github.com/user-attachments/assets/215dd13c-61ee-493f-aab6-a1f10bfdf305" />
+  <img src="assets/0.png" alt="Triliant Data Business Performance Dashboard" width="100%">
 </p>
 
 <br>
