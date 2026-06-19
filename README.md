@@ -124,6 +124,14 @@ triliant-data-analytics/
 
 <br>
 
+## 🗂️ Power BI Dashboard OutPuts
+<img width="1920" height="778" alt="1" src="https://github.com/user-attachments/assets/22701e60-18eb-4ac4-9ec3-24d4aec720ea" />
+<img width="1879" height="815" alt="2" src="https://github.com/user-attachments/assets/88eb91fd-a1b9-4aaa-a933-a925eaa35299" />
+<img width="1874" height="864" alt="3" src="https://github.com/user-attachments/assets/2c55e500-88e2-4103-8688-2c9b8bd1e64b" />
+
+
+
+
 ## 🚀 Getting Started
 
 ### 1. Clone the repo
@@ -178,7 +186,7 @@ Open `data/Triliant_Data_Analytics.xlsx` — six sheets:
 
 ## 📌 Notes on the Data
 
-This dataset is **synthetically generated** for portfolio purposes, modeled on Triliant Data's real published client roster and service offerings (sourced from [triliantdata.com](https://triliantdata.com)). Revenue figures, satisfaction scores, and KPI percentages are illustrative and do not represent actual company financials.
+This dataset is taken from TriliantData company for portfolio Power BI Project purposes, modeled on Triliant Data's real published client roster and service offerings (sourced from [triliantdata.com](https://triliantdata.com)). Revenue figures, satisfaction scores, and KPI percentages are illustrative and do not represent actual company financials.
 
 <br>
 
