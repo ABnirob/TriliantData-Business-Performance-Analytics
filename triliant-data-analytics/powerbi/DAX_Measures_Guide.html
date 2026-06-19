@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Triliant Data — Power BI Dashboard Setup Guide</title>
+<style>
+  body{font-family:'Segoe UI',Arial,sans-serif;max-width:900px;margin:0 auto;padding:30px 24px;background:#F8FAFC;color:#212529;line-height:1.7}
+  h1{background:#0D1B2A;color:#fff;padding:18px 24px;border-radius:8px;font-size:18px;margin:-24px -24px 28px}
+  h2{color:#0D1B2A;border-bottom:2px solid #185FA5;padding-bottom:6px;margin-top:32px;font-size:15px}
+  h3{color:#1A3A5C;font-size:13px;margin-top:20px}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+  th{background:#1A3A5C;color:#fff;padding:8px 12px;text-align:left}
+  td{padding:7px 12px;border-bottom:1px solid #E3E8EF}
+  tr:nth-child(even){background:#EEF3FB}
+  code{background:#E8F4FD;color:#185FA5;padding:2px 6px;border-radius:4px;font-size:12px}
+  pre{background:#0D1B2A;color:#90CAF9;padding:16px;border-radius:8px;overflow-x:auto;font-size:12px;line-height:1.6}
+  pre code{background:none;color:inherit;padding:0}
+  .badge{display:inline-block;background:#185FA5;color:#fff;font-size:11px;padding:3px 10px;border-radius:20px;margin-right:6px}
+  hr{border:none;border-top:1px solid #D0D8E4;margin:28px 0}
+  strong{color:#0D1B2A}
+</style>
+</head>
+<body>
+<h1>📊 Triliant Data — Power BI Dashboard Setup Guide</h1>
+<p><span class="badge">Analyst</span> Md. Abul Bashar Nirob &nbsp;|&nbsp; <span class="badge">Company</span> <a href="https://triliantdata.com" style="color:#185FA5">Triliant Data</a> &nbsp;|&nbsp; <span class="badge">Period</span> Mar 2025 – Feb 2026</p>
+<h1>Triliant Data — Power BI Dashboard Setup Guide</h1>
+
+<p><strong>Analyst:</strong> Md. Abul Bashar Nirob | <strong>Company:</strong> Triliant Data (triliantdata.com)
+<strong>Period:</strong> March 2025 – February 2026 | <strong>Offices:</strong> Dhaka &amp; Chittagong, Bangladesh</p>
+
+<hr />
+
+<h2>Step 1 — Import the Excel File</h2>
+
+<ol>
+<li>Open <strong>Power BI Desktop</strong></li>
+<li>Click <strong>Home → Get Data → Excel Workbook</strong></li>
+<li>Select <code>Triliant_Data_Analytics.xlsx</code></li>
+<li>Check all sheets: <code>Raw Data</code>, <code>KPI Summary</code>, <code>Service Analysis</code>, <code>Client Tracker</code></li>
+<li>Click <strong>Load</strong></li>
+</ol>
+
+<hr />
+
+<h2>Step 2 — Data Model Relationships</h2>
+
+<p>In <strong>Model View</strong>, create these relationships:</p>
+
+<table>
+<thead>
+<tr>
+  <th>From Table</th>
+  <th>Column</th>
+  <th>To Table</th>
+  <th>Column</th>
+  <th>Cardinality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Raw Data</td>
+  <td>Month</td>
+  <td>KPI Summary</td>
+  <td>Month</td>
+  <td>Many-to-One</td>
+</tr>
+<tr>
+  <td>Raw Data</td>
+  <td>Client</td>
+  <td>Client Tracker</td>
+  <td>Client</td>
+  <td>Many-to-One</td>
+</tr>
+<tr>
+  <td>Raw Data</td>
+  <td>Service Type</td>
+  <td>Service Analysis</td>
+  <td>Service Type</td>
+  <td>Many-to-One</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2>Step 3 — DAX Measures (copy into Power BI)</h2>
+
+<p>Paste each measure into <strong>Home → New Measure</strong>:</p>
+
+<div class="codehilite">
+<pre><span></span><code><span class="c1">-- ── REVENUE MEASURES ─────────────────────────────────────</span>
+
+Total Revenue =
+<span class="nf">SUM</span><span class="p">(</span><span class="na">&#39;Raw Data&#39;</span><span class="p">[</span>Revenue (BDT)])
+
+Revenue (BDT M) =
+<span class="nf">DIVIDE</span><span class="p">(</span><span class="na">[Total Revenue]</span><span class="p">,</span><span class="w"> </span><span class="m">1000000</span><span class="p">)</span>
+
+MoM Revenue Growth =
+<span class="nb">VAR</span><span class="w"> </span>CurrentRev = [Total Revenue]
+<span class="nb">VAR</span><span class="w"> </span>PrevRev =
+<span class="w">    </span><span class="nf">CALCULATE</span><span class="p">(</span>
+<span class="w">        </span><span class="na">[Total Revenue]</span><span class="p">,</span>
+<span class="w">        </span><span class="nf">DATEADD</span><span class="p">(</span><span class="na">&#39;Raw Data&#39;[Month]</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="nf">MONTH</span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="nb">RETURN</span>
+<span class="w">    </span><span class="nf">DIVIDE</span><span class="p">(</span>CurrentRev - PrevRev, PrevRev)
+
+YTD Revenue =
+<span class="nf">TOTALYTD</span><span class="p">(</span><span class="na">[Total Revenue]</span><span class="p">,</span><span class="w"> </span><span class="na">&#39;Raw Data&#39;[Month]</span><span class="p">)</span>
+
+Revenue Target =
+<span class="na">[Total Revenue]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">1.10</span>
+
+Revenue vs Target =
+<span class="nf">DIVIDE</span><span class="p">(</span><span class="na">[Total Revenue]</span><span class="p">,</span><span class="w"> </span><span class="na">[Revenue Target]</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span>
+
+<span class="c1">-- ── OPERATIONAL MEASURES ─────────────────────────────────</span>
+
+Avg Report Time =
+<span class="nf">AVERAGE</span><span class="p">(</span><span class="na">&#39;Raw Data&#39;</span><span class="p">[</span>Report Time (hrs)])
+
+Report Time Reduction % =
+<span class="nb">VAR</span><span class="w"> </span>FirstMonth = CALCULATE(
+<span class="w">    </span><span class="nf">AVERAGE</span><span class="p">(</span><span class="na">&#39;Raw Data&#39;</span><span class="p">[</span>Report Time (hrs)]),
+<span class="w">    </span><span class="nf">TOPN</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="nf">ALL</span><span class="p">(</span><span class="na">&#39;Raw Data&#39;[Month]</span><span class="p">),</span><span class="w"> </span><span class="na">&#39;Raw Data&#39;[Month]</span><span class="p">,</span><span class="w"> </span><span class="nb">ASC</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="nb">VAR</span><span class="w"> </span>LastMonth = CALCULATE(
+<span class="w">    </span><span class="nf">AVERAGE</span><span class="p">(</span><span class="na">&#39;Raw Data&#39;</span><span class="p">[</span>Report Time (hrs)]),
+<span class="w">    </span><span class="nf">TOPN</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="nf">ALL</span><span class="p">(</span><span class="na">&#39;Raw Data&#39;[Month]</span><span class="p">),</span><span class="w"> </span><span class="na">&#39;Raw Data&#39;[Month]</span><span class="p">,</span><span class="w"> </span><span class="nb">DESC</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="nb">RETURN</span>
+<span class="w">    </span><span class="nf">DIVIDE</span><span class="p">(</span>FirstMonth - LastMonth, FirstMonth)
+
+Avg Satisfaction =
+<span class="nf">AVERAGE</span><span class="p">(</span><span class="na">&#39;Raw Data&#39;</span><span class="p">[</span>Satisfaction (1-5)])
+
+Avg KPI Achievement =
+<span class="nf">AVERAGE</span><span class="p">(</span><span class="na">&#39;Raw Data&#39;</span><span class="p">[</span>KPI Achievement (%)])
+
+<span class="c1">-- ── LEAD &amp; CONVERSION MEASURES ───────────────────────────</span>
+
+Total Leads =
+<span class="nf">SUM</span><span class="p">(</span><span class="na">&#39;Raw Data&#39;[New Leads]</span><span class="p">)</span>
+
+Total Conversions =
+<span class="nf">SUM</span><span class="p">(</span><span class="na">&#39;Raw Data&#39;[Conversions]</span><span class="p">)</span>
+
+Conversion Rate =
+<span class="nf">DIVIDE</span><span class="p">(</span><span class="na">[Total Conversions]</span><span class="p">,</span><span class="w"> </span><span class="na">[Total Leads]</span><span class="p">)</span>
+
+<span class="c1">-- ── CLIENT MEASURES ──────────────────────────────────────</span>
+
+Active Clients =
+<span class="nf">CALCULATE</span><span class="p">(</span>
+<span class="w">    </span><span class="nf">DISTINCTCOUNT</span><span class="p">(</span><span class="na">&#39;Raw Data&#39;[Client]</span><span class="p">),</span>
+<span class="w">    </span><span class="na">&#39;Raw Data&#39;[Project Status]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Active&quot;</span>
+<span class="p">)</span>
+
+Clients by Region =
+<span class="nf">CALCULATE</span><span class="p">(</span>
+<span class="w">    </span><span class="nf">DISTINCTCOUNT</span><span class="p">(</span><span class="na">&#39;Raw Data&#39;[Client]</span><span class="p">),</span>
+<span class="w">    </span><span class="nf">ALLEXCEPT</span><span class="p">(</span><span class="na">&#39;Raw Data&#39;</span><span class="p">,</span><span class="w"> </span><span class="na">&#39;Raw Data&#39;[Region]</span><span class="p">)</span>
+<span class="p">)</span>
+
+Revenue per Client =
+<span class="nf">DIVIDE</span><span class="p">(</span><span class="na">[Total Revenue]</span><span class="p">,</span><span class="w"> </span><span class="nf">DISTINCTCOUNT</span><span class="p">(</span><span class="na">&#39;Raw Data&#39;[Client]</span><span class="p">))</span>
+
+<span class="c1">-- ── ON-TIME DELIVERY ────────────────────────────────────</span>
+
+On-Time Delivery Rate =
+<span class="nf">DIVIDE</span><span class="p">(</span>
+<span class="w">    </span><span class="nf">CALCULATE</span><span class="p">(</span><span class="nf">COUNTROWS</span><span class="p">(</span><span class="na">&#39;Raw Data&#39;</span><span class="p">),</span><span class="w"> </span><span class="na">&#39;Raw Data&#39;</span><span class="p">[</span>On-Time] = &quot;Yes&quot;),
+<span class="w">    </span><span class="nf">COUNTROWS</span><span class="p">(</span><span class="na">&#39;Raw Data&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1">-- ── SERVICE ANALYSIS ────────────────────────────────────</span>
+
+Revenue Share by Service =
+<span class="nf">DIVIDE</span><span class="p">(</span>
+<span class="w">    </span><span class="na">[Total Revenue]</span><span class="p">,</span>
+<span class="w">    </span><span class="nf">CALCULATE</span><span class="p">(</span><span class="na">[Total Revenue]</span><span class="p">,</span><span class="w"> </span><span class="nf">ALL</span><span class="p">(</span><span class="na">&#39;Raw Data&#39;[Service Type]</span><span class="p">))</span>
+<span class="p">)</span>
+
+Top Service =
+<span class="nf">TOPN</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="nf">VALUES</span><span class="p">(</span><span class="na">&#39;Raw Data&#39;[Service Type]</span><span class="p">),</span><span class="w"> </span><span class="na">[Total Revenue]</span><span class="p">,</span><span class="w"> </span><span class="nb">DESC</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<hr />
+
+<h2>Step 4 — Visuals to Build</h2>
+
+<h3>Page 1 — Executive Summary</h3>
+
+<table>
+<thead>
+<tr>
+  <th>Visual</th>
+  <th>Fields</th>
+  <th>Position</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Card</td>
+  <td>Total Revenue (BDT M)</td>
+  <td>Top-left</td>
+</tr>
+<tr>
+  <td>Card</td>
+  <td>Avg Satisfaction</td>
+  <td>Top-center-left</td>
+</tr>
+<tr>
+  <td>Card</td>
+  <td>Report Time Reduction %</td>
+  <td>Top-center-right</td>
+</tr>
+<tr>
+  <td>Card</td>
+  <td>Active Clients</td>
+  <td>Top-right</td>
+</tr>
+<tr>
+  <td>Line &amp; Clustered Column</td>
+  <td>X: Month, Column: Revenue, Line: MoM Growth</td>
+  <td>Main</td>
+</tr>
+<tr>
+  <td>Donut Chart</td>
+  <td>Legend: Service Type, Values: Total Revenue</td>
+  <td>Right</td>
+</tr>
+<tr>
+  <td>Slicer</td>
+  <td>Region (Dhaka / Chittagong)</td>
+  <td>Filter panel</td>
+</tr>
+</tbody>
+</table>
+
+<h3>Page 2 — Client Analysis</h3>
+
+<table>
+<thead>
+<tr>
+  <th>Visual</th>
+  <th>Fields</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Bar Chart (horizontal)</td>
+  <td>Y: Client, X: Total Revenue</td>
+</tr>
+<tr>
+  <td>Table</td>
+  <td>Client, Service, Revenue, Satisfaction, Status</td>
+</tr>
+<tr>
+  <td>Treemap</td>
+  <td>Group: Industry, Values: Total Revenue</td>
+</tr>
+<tr>
+  <td>KPI Visual</td>
+  <td>Avg Satisfaction vs target 4.5</td>
+</tr>
+</tbody>
+</table>
+
+<h3>Page 3 — Operational KPIs</h3>
+
+<table>
+<thead>
+<tr>
+  <th>Visual</th>
+  <th>Fields</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Line Chart</td>
+  <td>X: Month, Y: Avg Report Time</td>
+</tr>
+<tr>
+  <td>Area Chart</td>
+  <td>X: Month, Y: KPI Achievement %</td>
+</tr>
+<tr>
+  <td>Gauge</td>
+  <td>Conversion Rate vs target 55%</td>
+</tr>
+<tr>
+  <td>Clustered Bar</td>
+  <td>X: Month, Y: Leads vs Conversions</td>
+</tr>
+</tbody>
+</table>
+
+<h3>Page 4 — Regional Deep Dive</h3>
+
+<table>
+<thead>
+<tr>
+  <th>Visual</th>
+  <th>Fields</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Stacked Bar</td>
+  <td>X: Region, Y: Revenue, Legend: Service Type</td>
+</tr>
+<tr>
+  <td>Pie Chart</td>
+  <td>Legend: Region, Values: Total Revenue</td>
+</tr>
+<tr>
+  <td>Matrix</td>
+  <td>Rows: Region, Columns: Month, Values: Revenue</td>
+</tr>
+<tr>
+  <td>Card</td>
+  <td>Revenue per Client (by region slicer)</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+
+<h2>Step 5 — Formatting Recommendations</h2>
+
+<p><strong>Color Theme:</strong>
+- Primary Blue: <code>#185FA5</code>
+- Teal (AI/ML): <code>#1D9E75</code>
+- Coral (Data Analytics): <code>#D85A30</code>
+- Amber (Digital Transform): <code>#BA7517</code>
+- Dark Navy (Header): <code>#0D1B2A</code>
+- Background: <code>#F0F4F8</code></p>
+
+<p><strong>Fonts:</strong> Segoe UI (Power BI default) — consistent with professional BD corporate style</p>
+
+<p><strong>Report Title Banner:</strong> Set to <code>#0D1B2A</code> with white text, 14px bold
+"TRILIANT DATA — BUSINESS PERFORMANCE DASHBOARD · Bangladesh Operations"</p>
+
+<hr />
+
+<h2>Step 6 — Row-Level Security (Optional)</h2>
+
+<div class="codehilite">
+<pre><span></span><code><span class="c1">-- In Manage Roles → Create role &quot;Dhaka Only&quot;</span>
+<span class="na">[Region]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Dhaka&quot;</span>
+
+<span class="c1">-- Create role &quot;Chittagong Only&quot;</span>
+<span class="na">[Region]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Chittagong&quot;</span>
+</code></pre>
+</div>
+
+<hr />
+
+<h2>Step 7 — Publish</h2>
+
+<ol>
+<li><strong>File → Save As</strong> → <code>Triliant_Data_PowerBI.pbix</code></li>
+<li><strong>Home → Publish</strong> → Select your Power BI workspace</li>
+<li>Set <strong>Scheduled Refresh</strong> if connecting live data</li>
+</ol>
+
+<hr />
+
+<p><em>Dashboard built on real Triliant Data clients and Bangladesh service data.</em>
+<em>Source: triliantdata.com · Analyst: Md. Abul Bashar Nirob · abnirob40@gmail.com</em></p>
+
+</body></html>

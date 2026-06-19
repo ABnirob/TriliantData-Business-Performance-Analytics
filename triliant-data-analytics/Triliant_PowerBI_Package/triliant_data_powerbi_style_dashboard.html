@@ -1,0 +1,298 @@
+
+<h2 class="sr-only">Triliant Data Power BI report — revenue, satisfaction, KPI achievement, regional and client performance, Mar 2025 to Feb 2026, laid out as a Power BI Desktop report page.</h2>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.pbi-canvas{background:#0E1118;font-family:'Segoe UI',var(--font-sans);padding:18px}
+.pbi-ribbon{background:#1A1D29;border-radius:6px;padding:14px 22px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #F2C811}
+.pbi-ribbon h1{font-size:17px;font-weight:600;color:#fff}
+.pbi-ribbon .sub{font-size:11.5px;color:#9499A8;margin-top:3px}
+.pbi-tab{font-size:10.5px;color:#F2C811;background:rgba(242,200,17,0.12);padding:4px 12px;border-radius:4px;font-weight:600;letter-spacing:.03em}
+.kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+.kpi-tile{background:#1A1D29;border-radius:4px;padding:16px 18px;position:relative;overflow:hidden}
+.kpi-tile::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px}
+.kpi-tile.t1::before{background:#3B82F6}
+.kpi-tile.t2::before{background:#22D3EE}
+.kpi-tile.t3::before{background:#34D399}
+.kpi-tile.t4::before{background:#F97316}
+.kpi-label{font-size:10.5px;color:#9499A8;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;font-weight:600}
+.kpi-num{font-size:26px;font-weight:600;color:#fff;line-height:1}
+.kpi-delta{font-size:11px;margin-top:7px;font-weight:600}
+.up{color:#34D399}
+.row{display:grid;gap:12px;margin-bottom:12px}
+.row-2col{grid-template-columns:1.55fr 1fr}
+.row-3col{grid-template-columns:1fr 1fr 1fr}
+.visual{background:#1A1D29;border-radius:4px;padding:18px 20px;border:1px solid #262A38}
+.visual-title{font-size:12.5px;font-weight:600;color:#E4E6EB;margin-bottom:4px}
+.visual-sub{font-size:10.5px;color:#6E7383;margin-bottom:16px}
+.chart-box{position:relative}
+.legend-bar{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:14px}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:11px;color:#9499A8;font-weight:500}
+.leg-sw{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+table.pbi-table{width:100%;border-collapse:collapse;font-size:12px}
+table.pbi-table th{text-align:left;font-size:10.5px;color:#6E7383;text-transform:uppercase;letter-spacing:.04em;padding:8px 14px;border-bottom:1px solid #262A38;font-weight:600}
+table.pbi-table td{padding:9px 14px;border-bottom:1px solid #20232E;color:#D1D4DC}
+table.pbi-table tr:last-child td{border-bottom:none}
+table.pbi-table tbody tr:hover{background:#1F232F}
+.status-chip{display:inline-block;font-size:10px;padding:3px 10px;border-radius:10px;font-weight:600}
+.s-active{background:rgba(52,211,153,0.15);color:#34D399}
+.s-completed{background:rgba(249,115,22,0.15);color:#F97316}
+.s-hold{background:rgba(248,113,113,0.15);color:#F87171}
+.pbi-footer{text-align:center;font-size:10.5px;color:#52566A;padding:12px 0 4px}
+.right-align{text-align:right}
+</style>
+
+<div class="pbi-canvas">
+
+  <div class="pbi-ribbon">
+    <div>
+      <h1>Triliant Data — Business Performance</h1>
+      <p class="sub">Bangladesh Operations &nbsp;·&nbsp; Mar 2025 – Feb 2026 &nbsp;·&nbsp; triliantdata.com</p>
+    </div>
+    <span class="pbi-tab">PAGE 1 OF 1 · EXECUTIVE SUMMARY</span>
+  </div>
+
+  <div class="kpi-strip" id="kpiStrip"></div>
+
+  <div class="row row-2col">
+    <div class="visual">
+      <div class="visual-title">Monthly revenue trend</div>
+      <div class="visual-sub">BDT, with month-over-month growth</div>
+      <div class="chart-box" style="height:240px">
+        <canvas id="revChart" role="img" aria-label="Bar and line chart of monthly revenue from March 2025 to February 2026, rising from 9.4M to 25.7M BDT, with month over month growth percentages">Monthly revenue rose from 9.4M BDT in Mar-25 to 25.7M BDT in Feb-26, a 175% increase.</canvas>
+      </div>
+    </div>
+    <div class="visual">
+      <div class="visual-title">Revenue by service type</div>
+      <div class="visual-sub">Share of total BDT 208.3M</div>
+      <div class="legend-bar" id="donutLegend"></div>
+      <div class="chart-box" style="height:175px">
+        <canvas id="donutChart" role="img" aria-label="Donut chart of revenue share across four service types">Custom Software Dev 25%, AI and ML Solutions 22%, Data Analytics 25%, Digital Transformation 28%.</canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="row row-3col">
+    <div class="visual">
+      <div class="visual-title">Report time vs satisfaction</div>
+      <div class="visual-sub">Dual axis, hrs and score /5</div>
+      <div class="legend-bar">
+        <span class="leg-item"><span class="leg-sw" style="background:#F97316"></span>Report time (hrs)</span>
+        <span class="leg-item"><span class="leg-sw" style="background:#34D399"></span>Satisfaction</span>
+      </div>
+      <div class="chart-box" style="height:190px">
+        <canvas id="timeChart" role="img" aria-label="Line chart showing report time decreasing from 18 to 9 hours while satisfaction increases from 3.6 to 4.7 out of 5">Report time fell from 18 to 9 hours while satisfaction rose from 3.6 to 4.7.</canvas>
+      </div>
+    </div>
+    <div class="visual">
+      <div class="visual-title">KPI achievement</div>
+      <div class="visual-sub">% of agreed KPIs met monthly</div>
+      <div class="chart-box" style="height:190px;margin-top:30px">
+        <canvas id="kpiChart" role="img" aria-label="Area chart showing KPI achievement rising from 64% to 94%">KPI achievement rose steadily from 64% in March to 94% in February.</canvas>
+      </div>
+    </div>
+    <div class="visual">
+      <div class="visual-title">Revenue by region</div>
+      <div class="visual-sub">Dhaka vs Chittagong, BDT</div>
+      <div class="chart-box" style="height:190px;margin-top:30px">
+        <canvas id="regionChart" role="img" aria-label="Bar chart comparing revenue between Dhaka and Chittagong regions">Dhaka generated 147.3M BDT versus Chittagong at 61.1M BDT.</canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="row row-2col">
+    <div class="visual">
+      <div class="visual-title">Client revenue comparison</div>
+      <div class="visual-sub">Total BDT per client, 12-month period</div>
+      <div class="legend-bar">
+        <span class="leg-item"><span class="leg-sw" style="background:#3B82F6"></span>Dhaka</span>
+        <span class="leg-item"><span class="leg-sw" style="background:#A78BFA"></span>Chittagong</span>
+      </div>
+      <div class="chart-box" style="height:260px">
+        <canvas id="clientChart" role="img" aria-label="Horizontal bar chart ranking 8 clients by total revenue">TechnoVate BD leads at 33.75M BDT, followed by Monoara Jahur at 31.75M BDT, down to Adila Apparels at 18.35M BDT.</canvas>
+      </div>
+    </div>
+    <div class="visual">
+      <div class="visual-title">Leads & conversion rate</div>
+      <div class="visual-sub">New leads per month with conversion %</div>
+      <div class="legend-bar">
+        <span class="leg-item"><span class="leg-sw" style="background:#A78BFA"></span>New leads</span>
+        <span class="leg-item"><span class="leg-sw" style="background:#F97316"></span>Conversion rate</span>
+      </div>
+      <div class="chart-box" style="height:230px">
+        <canvas id="leadsChart" role="img" aria-label="Combined bar and line chart of new leads and conversion rate by month">New leads grew from 12 to 28 per month, with conversion rate holding steady around 48-51%.</canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="visual" style="margin-bottom:0">
+    <div class="visual-title">Client portfolio tracker</div>
+    <div class="visual-sub">All active and historical engagements</div>
+    <table class="pbi-table">
+      <thead>
+        <tr><th>Client</th><th>Service type</th><th>Region</th><th class="right-align">Revenue</th><th class="right-align">Satisfaction</th><th class="right-align">KPI</th><th>Status</th></tr>
+      </thead>
+      <tbody id="clientBody"></tbody>
+    </table>
+  </div>
+
+  <div class="pbi-footer">Triliant Data &nbsp;·&nbsp; Dhaka & Chittagong, Bangladesh &nbsp;·&nbsp; contact@triliantdata.com &nbsp;·&nbsp; Report built by Md. Abul Bashar Nirob</div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const MONTHS=["Mar-25","Apr-25","May-25","Jun-25","Jul-25","Aug-25","Sep-25","Oct-25","Nov-25","Dec-25","Jan-26","Feb-26"];
+const baseRev=[820,950,1100,1230,1400,1580,1490,1720,1880,2050,1990,2200];
+const baseTime=[18,17,16,15,14,13,13,12,11,10,9,9];
+const baseSat=[3.6,3.7,3.8,3.9,4.0,4.1,4.1,4.3,4.4,4.5,4.6,4.7];
+const kpiAch=[64,68,71,74,78,82,80,86,88,91,90,94];
+const leadsD=[12,14,15,17,18,20,19,22,24,26,25,28];
+const convRate=[50,50,47,47,50,50,47,50,50,50,48,50];
+
+const CLIENTS=[
+  {n:"Adila Apparels",ind:"Garments",svc:"Custom Software Dev",region:"Dhaka",status:"Active",ci:0},
+  {n:"Chai Break",ind:"F&B",svc:"AI & ML Solutions",region:"Dhaka",status:"Completed",ci:1},
+  {n:"Fair Farm BD",ind:"AgriTech",svc:"Data Analytics",region:"Dhaka",status:"Active",ci:2},
+  {n:"Infinabel",ind:"E-commerce",svc:"Digital Transformation",region:"Dhaka",status:"Active",ci:3},
+  {n:"Nodi Bangla",ind:"Media",svc:"Custom Software Dev",region:"Chittagong",status:"Completed",ci:4},
+  {n:"Robust Developments",ind:"Real Estate",svc:"Data Analytics",region:"Dhaka",status:"Active",ci:5},
+  {n:"Monoara Jahur",ind:"Manufacturing",svc:"AI & ML Solutions",region:"Dhaka",status:"Active",ci:6},
+  {n:"TechnoVate BD",ind:"IT Services",svc:"Digital Transformation",region:"Chittagong",status:"On Hold",ci:7},
+];
+
+const monthRevs=MONTHS.map((_,mi)=>Math.round(CLIENTS.reduce((s,c)=>s+baseRev[mi]*1000*(1+c.ci*0.12),0)/1e6*10)/10);
+const momGrowth=monthRevs.map((v,i)=>i===0?null:Math.round((v-monthRevs[i-1])/monthRevs[i-1]*1000)/10);
+
+const svcColors={"Custom Software Dev":"#3B82F6","AI & ML Solutions":"#22D3EE","Data Analytics":"#F97316","Digital Transformation":"#A78BFA"};
+const svcTotals={};
+CLIENTS.forEach(c=>{
+  const tot=MONTHS.reduce((s,_,mi)=>s+baseRev[mi]*1000*(1+c.ci*0.12),0)/1e6;
+  svcTotals[c.svc]=(svcTotals[c.svc]||0)+tot;
+});
+
+const clientTotals=CLIENTS.map(c=>({
+  ...c,
+  rev:Math.round(MONTHS.reduce((s,_,mi)=>s+baseRev[mi]*1000*(1+c.ci*0.12),0)/1e6*100)/100,
+  sat:Math.round((baseSat.reduce((a,b)=>a+b,0)/baseSat.length+c.ci*0.05)*100)/100,
+  kpi:Math.round(kpiAch.reduce((a,b)=>a+b,0)/kpiAch.length+c.ci*0.5)
+}));
+
+const totalRev=Math.round(clientTotals.reduce((s,c)=>s+c.rev,0)*10)/10;
+const avgSat=Math.round((clientTotals.reduce((s,c)=>s+c.sat,0)/clientTotals.length)*100)/100;
+const dhakaRev=Math.round(clientTotals.filter(c=>c.region==="Dhaka").reduce((s,c)=>s+c.rev,0)*10)/10;
+const cttgRev=Math.round(clientTotals.filter(c=>c.region==="Chittagong").reduce((s,c)=>s+c.rev,0)*10)/10;
+
+const kpiData=[
+  {cls:"t1",label:"Total revenue",val:`BDT ${totalRev}M`,delta:"▲ 175% growth (12 mo)"},
+  {cls:"t2",label:"Avg satisfaction",val:`${avgSat} / 5.0`,delta:"▲ from 3.6 to 4.7"},
+  {cls:"t3",label:"Report time",val:"−50%",delta:"18 hrs → 9 hrs saved"},
+  {cls:"t4",label:"Sales growth",val:"+35%",delta:"YoY target achieved"},
+];
+const kpiStrip=document.getElementById("kpiStrip");
+kpiData.forEach(k=>{
+  kpiStrip.innerHTML+=`<div class="kpi-tile ${k.cls}"><div class="kpi-label">${k.label}</div><div class="kpi-num">${k.val}</div><div class="kpi-delta up">${k.delta}</div></div>`;
+});
+
+const svcKeys=Object.keys(svcColors);
+const donutLegend=document.getElementById("donutLegend");
+const svcSum=Object.values(svcTotals).reduce((a,b)=>a+b,0);
+svcKeys.forEach(s=>{
+  const pct=Math.round(svcTotals[s]/svcSum*100);
+  donutLegend.innerHTML+=`<span class="leg-item"><span class="leg-sw" style="background:${svcColors[s]}"></span>${s} ${pct}%</span>`;
+});
+
+const tc="#9499A8", gc="#262A38", tcFaint="#6E7383";
+const baseGrid={color:gc,drawTicks:false};
+const baseTicks={color:tc,font:{size:10.5}};
+
+new Chart(document.getElementById("revChart"),{
+  data:{labels:MONTHS,datasets:[
+    {type:"bar",label:"Revenue",data:monthRevs,backgroundColor:"#3B82F6",borderRadius:3,barPercentage:0.62,yAxisID:"y"},
+    {type:"line",label:"MoM growth",data:momGrowth,borderColor:"#34D399",backgroundColor:"transparent",borderWidth:2,pointRadius:3,pointBackgroundColor:"#34D399",tension:0.35,yAxisID:"y2",borderDash:[4,3]}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+    scales:{
+      x:{ticks:{...baseTicks,maxRotation:0,autoSkip:false,font:{size:9.5}},grid:{display:false}},
+      y:{ticks:{...baseTicks,callback:v=>v+"M"},grid:baseGrid,position:"left",title:{display:true,text:"BDT (M)",color:tcFaint,font:{size:10}}},
+      y2:{ticks:{...baseTicks,callback:v=>v+"%"},grid:{display:false},position:"right"}
+    }}
+});
+
+new Chart(document.getElementById("donutChart"),{
+  type:"doughnut",
+  data:{labels:svcKeys,datasets:[{data:svcKeys.map(s=>Math.round(svcTotals[s]*10)/10),backgroundColor:svcKeys.map(s=>svcColors[s]),borderWidth:3,borderColor:"#1A1D29"}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`BDT ${ctx.parsed}M`}}},cutout:"64%"}
+});
+
+new Chart(document.getElementById("timeChart"),{
+  data:{labels:MONTHS,datasets:[
+    {type:"line",label:"Report time",data:baseTime,borderColor:"#F97316",backgroundColor:"transparent",borderWidth:2,pointRadius:2.5,pointBackgroundColor:"#F97316",tension:0.35,yAxisID:"y"},
+    {type:"line",label:"Satisfaction",data:baseSat,borderColor:"#34D399",backgroundColor:"transparent",borderWidth:2,pointRadius:2.5,pointBackgroundColor:"#34D399",tension:0.35,yAxisID:"y2",borderDash:[5,3]}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+    scales:{
+      x:{ticks:{...baseTicks,maxRotation:45,minRotation:45,autoSkip:false,font:{size:9}},grid:{display:false}},
+      y:{ticks:{...baseTicks,font:{size:9.5}},grid:baseGrid,position:"left",min:6,max:20},
+      y2:{ticks:{...baseTicks,font:{size:9.5}},grid:{display:false},position:"right",min:3,max:5}
+    }}
+});
+
+new Chart(document.getElementById("kpiChart"),{
+  type:"line",
+  data:{labels:MONTHS,datasets:[{data:kpiAch,borderColor:"#22D3EE",backgroundColor:"rgba(34,211,238,0.10)",fill:true,borderWidth:2,pointRadius:2.5,pointBackgroundColor:"#22D3EE",tension:0.35}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+    scales:{
+      x:{ticks:{...baseTicks,maxRotation:45,minRotation:45,autoSkip:false,font:{size:9}},grid:{display:false}},
+      y:{ticks:{...baseTicks,callback:v=>v+"%",font:{size:9.5}},grid:baseGrid,min:55,max:100}
+    }}
+});
+
+new Chart(document.getElementById("regionChart"),{
+  type:"bar",
+  data:{labels:["Dhaka","Chittagong"],datasets:[{data:[dhakaRev,cttgRev],backgroundColor:["#3B82F6","#A78BFA"],borderRadius:4,barPercentage:0.5}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`BDT ${ctx.parsed.y}M`}}},
+    scales:{
+      x:{ticks:{...baseTicks,font:{size:10.5}},grid:{display:false}},
+      y:{ticks:{...baseTicks,callback:v=>v+"M",font:{size:9.5}},grid:baseGrid}
+    }}
+});
+
+const sortedClients=[...clientTotals].sort((a,b)=>a.rev-b.rev);
+new Chart(document.getElementById("clientChart"),{
+  type:"bar",
+  data:{labels:sortedClients.map(c=>c.n),datasets:[{data:sortedClients.map(c=>c.rev),backgroundColor:sortedClients.map(c=>c.region==="Dhaka"?"#3B82F6":"#A78BFA"),borderRadius:3,barPercentage:0.65}]},
+  options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`BDT ${ctx.parsed.x}M`}}},
+    scales:{
+      x:{ticks:{...baseTicks,callback:v=>v+"M",font:{size:9.5}},grid:baseGrid},
+      y:{ticks:{...baseTicks,font:{size:10.5}},grid:{display:false}}
+    }}
+});
+
+new Chart(document.getElementById("leadsChart"),{
+  data:{labels:MONTHS,datasets:[
+    {type:"bar",label:"New leads",data:leadsD,backgroundColor:"#A78BFA",borderRadius:3,barPercentage:0.6,yAxisID:"y"},
+    {type:"line",label:"Conversion",data:convRate,borderColor:"#F97316",backgroundColor:"transparent",borderWidth:2,pointRadius:2.5,pointBackgroundColor:"#F97316",tension:0.35,yAxisID:"y2",borderDash:[4,3]}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+    scales:{
+      x:{ticks:{...baseTicks,maxRotation:45,minRotation:45,autoSkip:false,font:{size:9}},grid:{display:false}},
+      y:{ticks:{...baseTicks,font:{size:9.5}},grid:baseGrid,position:"left",title:{display:true,text:"Leads",color:tcFaint,font:{size:10}}},
+      y2:{ticks:{...baseTicks,callback:v=>v+"%",font:{size:9.5}},grid:{display:false},position:"right",min:40,max:55}
+    }}
+});
+
+const tbody=document.getElementById("clientBody");
+[...clientTotals].sort((a,b)=>b.rev-a.rev).forEach(c=>{
+  const chipClass=c.status==="Active"?"s-active":c.status==="Completed"?"s-completed":"s-hold";
+  tbody.innerHTML+=`<tr>
+    <td style="font-weight:600;color:#fff">${c.n}</td>
+    <td style="color:#9499A8">${c.svc}</td>
+    <td style="color:#9499A8">${c.region}</td>
+    <td class="right-align">BDT ${c.rev}M</td>
+    <td class="right-align">${c.sat.toFixed(2)}</td>
+    <td class="right-align">${c.kpi}%</td>
+    <td><span class="status-chip ${chipClass}">${c.status}</span></td>
+  </tr>`;
+});
+</script>
