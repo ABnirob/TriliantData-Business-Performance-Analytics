@@ -1,6 +1,6 @@
 <div align="center">
 
-# Triliant Data — Business Performance Analytics
+# 📊 Triliant Data — Business Performance Analytics
 
 ### End-to-end data analysis project tracking revenue, KPIs, and client performance for a Bangladesh-based data services firm
 
@@ -16,8 +16,7 @@
 <br>
 
 <p align="center">
-  <img src="<>
-" alt="<img width="1922" height="1623" alt="0" src="https://github.com/user-attachments/assets/0338c611-5dfd-4527-8f0a-56a46686d7d1" />
+  <img src="assets/0.png" alt="Triliant Data Business Performance Dashboard" width="100%">
 </p>
 
 <br>
@@ -54,19 +53,21 @@ The dataset tracks **8 real Triliant Data clients** across **4 core service line
 ```
 triliant-data-analytics/
 │
-├── 📊 dashboard-preview.png          # Full dashboard, rendered (this README's hero image)
-├── 📈 Triliant_Dashboard.png         # High-res standalone dashboard export
+├── README.md
 │
-├── 📁 data/
-│   └── Triliant_Data_Analytics.xlsx  # Source workbook — 6 sheets, 130+ live formulas
+├── assets/
+│   └── dashboard-preview.png          # Full dashboard, rendered (this README's hero image)
 │
-├── 📁 analysis/
-│   └── triliant_data_analysis.py     # Python EDA + dashboard generation script
+├── data/
+│   └── Triliant_Data_Analytics.xlsx   # Source workbook — 6 sheets, 130+ live formulas
 │
-├── 📁 powerbi/
-│   └── Triliant_PowerBI_Guide.html   # DAX measures + Power BI build guide
+├── analysis/
+│   └── triliant_data_analysis.py      # Python EDA + dashboard generation script
 │
-└── README.md                         # You are here
+└── powerbi/
+    ├── PowerQuery_RawData.m           # Paste into Power BI to load the full dataset instantly
+    ├── HOW_TO_BUILD_PBIX.md           # Step-by-step .pbix build guide
+    └── DAX_Measures_Guide.html        # 15+ ready-to-use DAX measures + visual specs
 ```
 
 <br>
@@ -131,14 +132,14 @@ cd triliant-data-analytics
 
 ### 2. Install dependencies
 ```bash
-pip install pandas numpy matplotlib openpyxl --break-system-packages
+pip install pandas numpy matplotlib openpyxl
 ```
 
 ### 3. Run the analysis
 ```bash
 python analysis/triliant_data_analysis.py
 ```
-This regenerates the full EDA report (console output) and renders `Triliant_Dashboard.png`.
+This regenerates the full EDA report (console output) and renders the dashboard PNG.
 
 ### 4. Explore the Excel workbook
 Open `data/Triliant_Data_Analytics.xlsx` — six sheets:
@@ -149,8 +150,13 @@ Open `data/Triliant_Data_Analytics.xlsx` — six sheets:
 - **Charts** — native Excel visualizations
 - **README** — in-workbook documentation
 
-### 5. Build the Power BI dashboard
-Follow `powerbi/Triliant_PowerBI_Guide.html` — includes 15+ ready-to-paste DAX measures, page-by-page visual specs, and a corporate color theme.
+### 5. Build the Power BI dashboard (.pbix)
+1. Open Power BI Desktop → **Home → Transform Data → New Blank Query → Advanced Editor**
+2. Paste in the contents of `powerbi/PowerQuery_RawData.m` → **Done → Close & Apply**
+   (loads the full 96-row dataset instantly, fully typed, no external file needed)
+3. Paste the DAX measures from `powerbi/DAX_Measures_Guide.html` into **New Measure**
+4. Build the visuals listed in `powerbi/HOW_TO_BUILD_PBIX.md` (exact chart type + fields per page)
+5. **File → Save As → Triliant_Data.pbix**
 
 <br>
 
@@ -194,4 +200,3 @@ This project is licensed under the MIT License — feel free to fork, adapt, and
 ⭐ If this project helped you understand end-to-end analyst workflows, consider giving it a star!
 
 </div>
-
