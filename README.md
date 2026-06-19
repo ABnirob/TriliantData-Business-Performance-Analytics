@@ -18,7 +18,6 @@
 <p align="center">
   <img src="<img width="1922" height="1623" alt="0" src="https://github.com/user-attachments/assets/11f0efb2-036b-49e7-81ad-dccb55fb7806" />
 " alt="<img width="1922" height="1623" alt="0" src="https://github.com/user-attachments/assets/0338c611-5dfd-4527-8f0a-56a46686d7d1" />
-" width="100%">
 </p>
 
 <br>
