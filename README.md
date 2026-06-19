@@ -16,8 +16,8 @@
 <br>
 
 <p align="center">
-  <img src="<Triliant Data Business Performance Dashboard" />
-" alt="" width="100%">
+  <img src="<Triliant Data Business Performance Dashboard"/>
+" alt="<img width="1922" height="1623" alt="0" src="https://github.com/user-attachments/assets/26f4f558-beb0-4987-9ff5-78e91e7721ed" />
 </p>
 
 <br>
